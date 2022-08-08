@@ -14,8 +14,12 @@ public class PlayerMovement : MonoBehaviour
     private float dashCounter;
     public float dashLenght = .5f, dashCooldown = 1f;
     private float dashCoolCounter;
+
+
+
+
     // Start is called before the first frame update
-    void Awake()
+    void Awake ()
     {
         m_Rb = GetComponent<Rigidbody>();
         activeMoveSpeed = speed;
@@ -40,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+ 
+
         //Quaternion targetRotation = Quaternion.LookRotation(movement);
 
         //Debug.Log(targetRotation.eulerAngles);
@@ -47,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
         m_Rb.MovePosition(m_Rb.position + movement * activeMoveSpeed * Time.deltaTime);
         //m_Rb.MoveRotation(targetRotation);
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetButtonDown("Dash"))
         {
             if(dashCoolCounter <=0 && dashCounter <= 0)
             {
