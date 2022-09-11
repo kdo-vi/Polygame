@@ -19,15 +19,17 @@ public class PickDropThrow : MonoBehaviour
         player = GameObject.Find("Player").transform;
         HotldSpot = GameObject.Find("HotldSpot").transform;
     }
-
+    
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.E) && itemIsPicked == true && readToThrow)
+        if(Input.GetKey(KeyCode.E) && itemIsPicked == true && readToThrow && forceMulti < 2000)
         {
-            forceMulti += 150 ;
+            forceMulti += 2000 ;
         }
         pickupdistance = Vector3.Distance(player.position, transform.position);
+
+  
 
         if(pickupdistance <= 2)
         {
@@ -47,7 +49,7 @@ public class PickDropThrow : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.E) && itemIsPicked == true)
         {
             readToThrow = true;
-            if(forceMulti > 10)
+            if(forceMulti > 150)
             {
                 GetComponent<Rigidbody>().isKinematic = false;
                 o_Rb.AddForce(player.transform.forward * forceMulti);

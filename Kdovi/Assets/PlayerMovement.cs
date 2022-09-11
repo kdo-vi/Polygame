@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public PickDropThrow PDT;
+
     public float speed;
 
     private Rigidbody m_Rb;
@@ -18,11 +20,14 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+    private Animator animator;
+
     // Start is called before the first frame update
     void Awake ()
     {
         m_Rb = GetComponent<Rigidbody>();
         activeMoveSpeed = speed;
+        animator = GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -39,21 +44,36 @@ public class PlayerMovement : MonoBehaviour
         
         Vector3 movement = new Vector3(horizontalInput, 0, verticalInput);
 
-        if (movement == Vector3.zero)
+        if (movement != Vector3.zero)
         {
-            return;
+            animator.SetBool("isMoving", true);
+            m_Rb.MovePosition(m_Rb.position + movement * activeMoveSpeed * Time.deltaTime);
+
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
         }
 
- 
+        /*
+        if(PDT.itemIsPicked == true)
+        {
+            if(Input.GetKeyDown(KeyCode.F))
+            {
+
+
+            }
+
+        }*/
 
         //Quaternion targetRotation = Quaternion.LookRotation(movement);
 
         //Debug.Log(targetRotation.eulerAngles);
 
-        m_Rb.MovePosition(m_Rb.position + movement * activeMoveSpeed * Time.deltaTime);
+        
         //m_Rb.MoveRotation(targetRotation);
 
-        if(Input.GetButtonDown("Dash"))
+        if (Input.GetButtonDown("Dash"))
         {
             if(dashCoolCounter <=0 && dashCounter <= 0)
             {
@@ -79,6 +99,17 @@ public class PlayerMovement : MonoBehaviour
             dashCoolCounter -= Time.deltaTime;
             
         }
+
+        if(PDT.itemIsPicked == true)
+        {
+            animator.SetBool("isHoldingSword", true);
+        }
+        else
+        {
+            animator.SetBool("isHoldingSword", false);
+        }
+
+
     }
 
 }
